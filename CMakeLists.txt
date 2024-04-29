@@ -8,15 +8,17 @@ find_package( thinkboxcmlibrary REQUIRED )
 include( PrecompiledHeader )
 include( ThinkboxCMLibrary )
 
-set( SUPPORTED_MAX_VERSIONS 2022 2023 )
+set( SUPPORTED_MAX_VERSIONS 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 )
 
-option( MAX_VERSION "The version of the 3ds Max SDK to build the library against." 2022 )
+option( MAX_VERSION "The version of the 3ds Max SDK to build the library against." 2024 )
 
 if( NOT MAX_VERSION IN_LIST SUPPORTED_MAX_VERSIONS )
   message( FATAL_ERROR "ERROR: Cannot build for unsupported 3ds Max version ${MAX_VERSION}" )
 endif()
 
 add_library( stokemx SHARED )
+
+set_property( TARGET stokemx PROPERTY CXX_STANDARD 17 )
 
 set_target_properties( stokemx PROPERTIES OUTPUT_NAME "StokeMX" )
 set_target_properties( stokemx PROPERTIES PREFIX "" )
@@ -132,6 +134,9 @@ frantic_common_platform_setup( stokemx )
 if( WIN32 )
 	target_compile_options( stokemx PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
 endif()
+
+# restore auto_ptr in c++17
+target_compile_definitions( stokemx PRIVATE _HAS_AUTO_PTR_ETC=1 )
 
 install( TARGETS stokemx
 		 RUNTIME DESTINATION bin

@@ -458,7 +458,14 @@ void edge_surface::set_selection_channel( const frantic::tstring& channelName, b
                 m_pVertexSelectionChannel = NULL;
         }
     } else {
-        m_useEdgeSelection = ( m_pMesh->get_mesh()->selLevel == MESH_EDGE || !m_pMesh->get_mesh()->edgeSel.IsEmpty() );
+        m_useEdgeSelection = ( m_pMesh->get_mesh()->selLevel == MESH_EDGE ||
+#if MAX_RELEASE_R26
+                               ! (const_cast<Mesh *>(m_pMesh->get_mesh())->EdgeSel().IsEmpty() ));
+#else
+                               !m_pMesh->get_mesh()->edgeSel.IsEmpty() );
+#endif
+
+
         /*if( m_pMesh->request_channel( channelName, false, false, false ) ){
                 m_pFaceSelectionChannel = m_pMesh->get_face_channels().get_channel( channelName );
 
@@ -514,7 +521,7 @@ std::size_t edge_surface::element_count( std::size_t /*surfaceIndex*/ ) const {
 float edge_surface::element_area( std::size_t /*surfaceIndex*/, std::size_t elementIndex ) const {
     MEdge& edge = m_pEdgeList->edges[static_cast<INT_PTR>( elementIndex )];
 
-    if( !edge.Visible( const_cast<Face*>( m_pMesh->get_mesh()->faces ) ) )
+    if( !edge.Visible(  m_pMesh->get_mesh()->faces ) )
         return 0.f;
 
     if( m_pVertexSelectionChannel ) {
@@ -538,8 +545,13 @@ float edge_surface::element_area( std::size_t /*surfaceIndex*/, std::size_t elem
         //	m_pFaceSelectionChannel->frantic::geometry::mesh_channel_interface::get_value<boost::int8_t>( edge.f[0]
         //) != 0 || 	m_pFaceSelectionChannel->frantic::geometry::mesh_channel_interface::get_value<boost::int8_t>(
         //edge.f[1] ) != 0 )
-        if( !m_useEdgeSelection || edge.Selected( const_cast<Face*>( m_pMesh->get_mesh()->faces ),
-                                                  const_cast<BitArray&>( m_pMesh->get_mesh()->edgeSel ) ) ) {
+        if( !m_useEdgeSelection || 
+#if MAX_RELEASE_R26            
+            edge.Selected( m_pMesh->get_mesh()->faces , const_cast<BitArray&>( const_cast<Mesh *>(m_pMesh->get_mesh())->EdgeSel() ) ) ) 
+#else
+            edge.Selected( m_pMesh->get_mesh()->faces , const_cast<BitArray&>( m_pMesh->get_mesh()->edgeSel ) ) ) 
+#endif                
+        {
             float verts[2][3];
             m_pMesh->get_vert( edge.v[0], verts[0] );
             m_pMesh->get_vert( edge.v[1], verts[1] );

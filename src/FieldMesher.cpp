@@ -1081,7 +1081,12 @@ RefResult FieldMesher::NotifyRefChanged( Interval /*changeInt*/, RefTargetHandle
         return REF_STOP;
 #endif
     // TODO : I think we shouldn't need this, but parameters don't appear without it.
-    case REFMSG_GET_PARAM_NAME: {
+#if MAX_RELEASE_R24
+    case REFMSG_GET_PARAM_NAME_NONLOCALIZED:
+#else
+    case REFMSG_GET_PARAM_NAME:
+#endif
+    {
         GetParamName* gpd = (GetParamName*)partID;
         TCHAR* s = 0;
         if( pblock2 && gpd->index < pblock2->NumParams() ) {

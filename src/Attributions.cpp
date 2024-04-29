@@ -17,7 +17,14 @@
 namespace stoke {
 
 std::wstring get_attributions() {
-    const boost::filesystem::path homePath = frantic::strings::to_wstring( GetStokeInterface()->GetRootDirectory() );
+    const boost::filesystem::path homePath = 
+#if MAX_RELEASE_R27
+        frantic::strings::to_wstring( GetStokeInterface()->GetRootDirectory().data() );
+#else
+        frantic::strings::to_wstring( GetStokeInterface()->GetRootDirectory() );
+#endif
+
+
     const boost::filesystem::path attributionPath = homePath / L"Legal/third_party_licenses.txt";
     std::wifstream wideIn( attributionPath.wstring() );
     if( wideIn.fail() ) {
