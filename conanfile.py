@@ -72,7 +72,7 @@ UNUSED_LICENSE_DENYLIST: set[str] = {
 
 class KrakatoaMXConan(ConanFile):
     name: str = 'stokemx'
-    version: str = '2.7.2'
+    version: str = '2.8.0'
     license: str = 'Apache-2.0'
     description: str = 'The Stoke Plugin for 3ds Max'
     settings: dict[str, Any] = SETTINGS

@@ -4266,7 +4266,13 @@ macroScript AboutStoke category:"Stoke"
 			if maxVer == "16" do maxVer = "15"			
 			if maxVer == "14" do maxVer = "13"
 			edt_installationfolder.text = StokeGlobalInterface.HomeDirectory
-			edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "3dsMax20"+maxVer+"\\StokeMX.dlo"))catch("???")
+			
+			-- ApplicationPlugins folder structure
+			edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "plugin\\StokeMX.dlo"))catch("???")
+			-- legacy folder structure 
+			if( edt_dlrdate.text=="???" ) do			
+				edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "3dsMax20"+maxVer+"\\StokeMX.dlo"))catch("???")
+				
 			try
 			(
 				dnc_attributions.multiline = true
