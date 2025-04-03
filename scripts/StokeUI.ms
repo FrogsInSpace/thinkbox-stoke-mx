@@ -4266,12 +4266,14 @@ macroScript AboutStoke category:"Stoke"
 			if maxVer == "16" do maxVer = "15"			
 			if maxVer == "14" do maxVer = "13"
 			edt_installationfolder.text = StokeGlobalInterface.HomeDirectory
-			
+
+			local plugFilePath=StokeGlobalInterface.HomeDirectory + "plugin\\StokeMX_20"+maxVer+".dlo"
+
 			-- ApplicationPlugins folder structure
-			edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "plugin\\StokeMX.dlo"))catch("???")
+			edt_dlrdate.text = try(getFileModDate plugFilePath) catch("???")
 			-- legacy folder structure 
-			if( edt_dlrdate.text=="???" ) do			
-				edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "3dsMax20"+maxVer+"\\StokeMX.dlo"))catch("???")
+			-- if( edt_dlrdate.text=="???" ) do			
+				-- edt_dlrdate.text = try(getFileModDate (StokeGlobalInterface.HomeDirectory + "3dsMax20"+maxVer+"\\StokeMX.dlo"))catch("???")
 				
 			try
 			(

@@ -20,7 +20,7 @@ add_library( stokemx SHARED )
 
 set_property( TARGET stokemx PROPERTY CXX_STANDARD 17 )
 
-set_target_properties( stokemx PROPERTIES OUTPUT_NAME "StokeMX" )
+set_target_properties( stokemx PROPERTIES OUTPUT_NAME "StokeMX_${MAX_VERSION}" )
 set_target_properties( stokemx PROPERTIES PREFIX "" )
 set_target_properties( stokemx PROPERTIES SUFFIX ".dlo" )
 
