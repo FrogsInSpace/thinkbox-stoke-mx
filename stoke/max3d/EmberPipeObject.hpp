@@ -170,10 +170,15 @@ class EmberPipeObject : public frantic::max3d::GenericReferenceTarget<GeomObject
 
     virtual Object* ConvertToType( TimeValue t, Class_ID obtype );
 
+#ifdef MAX_RELEASE_R29
+    virtual Interval ChannelValidity( TimeValue t, ChannelIndex nchan );
+
+    virtual void SetChannelValidity( ChannelIndex nchan, Interval v );
+#else
     virtual Interval ChannelValidity( TimeValue t, int nchan );
 
     virtual void SetChannelValidity( int nchan, Interval v );
-
+#endif
     virtual void InvalidateChannels( ChannelMask channels );
 
     virtual Interval ObjectValidity( TimeValue t );

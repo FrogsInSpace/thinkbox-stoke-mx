@@ -96,7 +96,7 @@ ClassDesc2* GetEmberPipeObjectDesc() {
 EmberPipeObject::EmberPipeObject()
     : m_vpUpdatePending( false )
     , m_geomValid( FOREVER )
-    , m_chanValid( ~0 )
+    , m_chanValid( static_cast<ChannelMask>( ~0 ))
 #if MAX_VERSION_MAJOR >= 17
     , m_wasRealized( false )
 #endif
@@ -1066,7 +1066,12 @@ Object* EmberPipeObject::ConvertToType( TimeValue /*t*/, Class_ID obtype ) {
     return this;
 }
 
-Interval EmberPipeObject::ChannelValidity( TimeValue t, int nchan ) {
+#ifdef MAX_RELEASE_R29
+Interval EmberPipeObject::ChannelValidity( TimeValue t, ChannelIndex nchan ) 
+#else
+Interval EmberPipeObject::ChannelValidity( TimeValue t, int nchan ) 
+#endif
+{
     if( this->IsBaseClassOwnedChannel( nchan ) ) {
         Interval iv = GeomObject::ChannelValidity( t, nchan );
         return iv;
@@ -1089,7 +1094,12 @@ Interval EmberPipeObject::ChannelValidity( TimeValue t, int nchan ) {
     return iv;
 }
 
-void EmberPipeObject::SetChannelValidity( int nchan, Interval v ) {
+#ifdef MAX_RELEASE_R29
+void EmberPipeObject::SetChannelValidity( ChannelIndex nchan, Interval v ) 
+#else
+void EmberPipeObject::SetChannelValidity( int nchan, Interval v ) 
+#endif
+{
     GeomObject::SetChannelValidity( nchan, v );
 
     switch( nchan ) {
@@ -1097,7 +1107,7 @@ void EmberPipeObject::SetChannelValidity( int nchan, Interval v ) {
         m_geomValid = v;
         break;
     case DISP_ATTRIB_CHAN_NUM:
-        m_chanValid = ( m_chanValid & ~DISP_ATTRIB_CHANNEL ) | ( v.Empty() ? 0 : DISP_ATTRIB_CHANNEL );
+        m_chanValid = static_cast<ChannelMask>(( m_chanValid & ~DISP_ATTRIB_CHANNEL ) | ( v.Empty() ? 0 : DISP_ATTRIB_CHANNEL ));
         break;
     default:
         break;

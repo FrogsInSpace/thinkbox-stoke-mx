@@ -8,9 +8,9 @@ find_package( thinkboxcmlibrary REQUIRED )
 include( PrecompiledHeader )
 include( ThinkboxCMLibrary )
 
-set( SUPPORTED_MAX_VERSIONS 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 )
+set( SUPPORTED_MAX_VERSIONS 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 )
 
-option( MAX_VERSION "The version of the 3ds Max SDK to build the library against." 2025 )
+option( MAX_VERSION "The version of the 3ds Max SDK to build the library against." 2027 )
 
 if( NOT MAX_VERSION IN_LIST SUPPORTED_MAX_VERSIONS )
   message( FATAL_ERROR "ERROR: Cannot build for unsupported 3ds Max version ${MAX_VERSION}" )
@@ -19,6 +19,11 @@ endif()
 add_library( stokemx SHARED )
 
 set_property( TARGET stokemx PROPERTY CXX_STANDARD 17 )
+
+if(MAX_VERSION GREATER_EQUAL 2027)
+	# allow deprecated void* for notify parameters for the time being 
+	target_compile_definitions(stokemx PRIVATE MAXSDK_DISABLE_STRICT_NOTIFY)
+endif()
 
 set_target_properties( stokemx PROPERTIES OUTPUT_NAME "StokeMX_${MAX_VERSION}" )
 set_target_properties( stokemx PROPERTIES PREFIX "" )
