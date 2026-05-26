@@ -151,9 +151,9 @@ class EmberForceObject : public frantic::max3d::GenericReferenceTarget<WSMObject
 
     virtual CreateMouseCallBack* GetCreateMouseCallBack();
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
     virtual int Display( TimeValue t, INode* inode, ViewExp* vpt, int flags );
     virtual int HitTest( TimeValue t, INode* inode, int type, int crossing, int flags, IPoint2* p, ViewExp* vpt );
@@ -541,10 +541,12 @@ CreateMouseCallBack* EmberForceObject::GetCreateMouseCallBack() {
 }
 
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE EmberForceObject::GetObjectName() { return _T( EmberForceObject_OBJECTNAME ); }
+TYPE_STRING_TYPE EmberForceObject::GetObjectName() {
 #else
-TYPE_STRING_TYPE EmberForceObject::GetObjectName( bool localized ) const { return _T( EmberForceObject_OBJECTNAME ); }
+TYPE_STRING_TYPE EmberForceObject::GetObjectName( bool localized ) const {
 #endif
+	return _T( EmberForceObject_OBJECTNAME ); 
+}
 
 int EmberForceObject::Display( TimeValue t, INode* inode, ViewExp* vpt, int /*flags*/ ) {
 #if MAX_VERSION_MAJOR >= 17
@@ -781,10 +783,12 @@ class EmberForceMod : public SimpleWSMMod {
     EmberForceMod( INode* node, EmberForceObject* obj );
 
 // From Animatable
-#if MAX_VERSION_MAJOR < 24
-    virtual void GetClassName( TSTR& s ) { s = GetEmberForceModDesc()->ClassName(); }
+#if MAX_VERSION_MAJOR < 15
+    void GetClassName( TSTR& s ) override { s = GetEmberForceModDesc()->ClassName(); }
+#elif MAX_VERSION_MAJOR < 24
+    void GetClassName( TSTR& s ) override { s = GetEmberForceModDesc()->ClassName(); }
 #else
-    virtual void GetClassName( TSTR& s, bool localized ) const { s = GetEmberForceModDesc()->ClassName(); }
+    void GetClassName( TSTR& s, bool localized ) const override { s = GetEmberForceModDesc()->ClassName(); }
 #endif
 
     virtual SClass_ID SuperClassID() { return GetEmberForceModDesc()->SuperClassID(); }
@@ -793,14 +797,12 @@ class EmberForceMod : public SimpleWSMMod {
     virtual RefTargetHandle Clone( RemapDir& remap );
 
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName() {
-        return const_cast<TYPE_STRING_TYPE>( GetEmberForceModDesc()->ClassName() );
-    }
+    TYPE_STRING_TYPE GetObjectName() override { 
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const {
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override {
+#endif
         return const_cast<TYPE_STRING_TYPE>( GetEmberForceModDesc()->ClassName() );
     }
-#endif
 
     virtual void ModifyObject( TimeValue t, ModContext& mc, ObjectState* os, INode* node );
 

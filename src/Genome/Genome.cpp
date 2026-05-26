@@ -178,15 +178,10 @@ class GenomeMod : public GenericReferenceTarget<OSModifier, GenomeMod>, public I
 
     // From BaseObject
     virtual
-#if MAX_VERSION_MAJOR >= 15
-        const
-#endif
 #if MAX_VERSION_MAJOR < 24
-        TYPE_STRING_TYPE
-        GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-        TYPE_STRING_TYPE
-        GetObjectName( bool localized );
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
     virtual CreateMouseCallBack* GetCreateMouseCallBack( void );
     virtual int Display( TimeValue t, INode* inode, ViewExp* vpt, int flags, ModContext* mc );
@@ -846,18 +841,13 @@ void GenomeMod::BaseClone( ReferenceTarget* from, ReferenceTarget* to, RemapDir&
 
 CreateMouseCallBack* GenomeMod::GetCreateMouseCallBack( void ) { return NULL; }
 
-#if MAX_VERSION_MAJOR >= 15
-const
-#endif
-
 #if MAX_VERSION_MAJOR < 24
-    TYPE_STRING_TYPE
-    GenomeMod::GetObjectName() {
-    return _T("Genome");
-}
+TYPE_STRING_TYPE GenomeMod::GetObjectName() {
 #else
-TYPE_STRING_TYPE GenomeMod::GetObjectName( bool localized ) { return _T("Genome"); }
+TYPE_STRING_TYPE GenomeMod::GetObjectName( bool localized ) const {
 #endif
+	return _T("Genome"); 
+}
 
 int GenomeMod::Display( TimeValue /*t*/, INode* /*inode*/, ViewExp* vpt, int /*flags*/, ModContext* mc ) {
     if( !mc->box || mc->box->IsEmpty() )

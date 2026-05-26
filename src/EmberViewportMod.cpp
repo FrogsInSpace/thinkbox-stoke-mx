@@ -48,9 +48,9 @@ class EmberViewportMod : public frantic::max3d::GenericReferenceTarget<OSModifie
     virtual CreateMouseCallBack* GetCreateMouseCallBack( void );
 
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     // Modifier
@@ -186,10 +186,12 @@ RefResult EmberViewportMod::NotifyRefChanged( const Interval& /*changeInt*/, Ref
 CreateMouseCallBack* EmberViewportMod::GetCreateMouseCallBack( void ) { return NULL; }
 
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE EmberViewportMod::GetObjectName() { return _T( EmberViewportMod_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberViewportMod::GetObjectName() {
 #else
-TYPE_STRING_TYPE EmberViewportMod::GetObjectName( bool localized ) const { return _T( EmberViewportMod_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberViewportMod::GetObjectName( bool localized ) const { 
 #endif
+	return _T( EmberViewportMod_DISPLAYNAME ); 
+}
 
 Interval EmberViewportMod::LocalValidity( TimeValue /*t*/ ) { return FOREVER; }
 

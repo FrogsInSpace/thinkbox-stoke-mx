@@ -156,9 +156,9 @@ class PRTEmberBase : public krakatoa::max3d::PRTObject<PRTEmberBase>, public IPR
 
     // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized );
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override ;
 #endif
 
     // From Object
@@ -762,10 +762,12 @@ RefResult PRTEmberBase::NotifyRefChanged( const Interval& /*changeInt*/, RefTarg
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE PRTEmberBase::GetObjectName() { return PRTEmberBase_CLASS_NAME; }
+TYPE_STRING_TYPE PRTEmberBase::GetObjectName() {
 #else
-TYPE_STRING_TYPE PRTEmberBase::GetObjectName( bool localized ) { return PRTEmberBase_CLASS_NAME; }
+TYPE_STRING_TYPE PRTEmberBase::GetObjectName( bool localized ) const {
 #endif
+	return PRTEmberBase_CLASS_NAME; 
+}
 
 // From Object
 void PRTEmberBase::InitNodeName( MSTR& s ) { s = PRTEmberBase_CLASS_NAME; }

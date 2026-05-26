@@ -33,9 +33,9 @@ class EmberFluidMotionMod : public frantic::max3d::GenericReferenceTarget<OSModi
     virtual CreateMouseCallBack* GetCreateMouseCallBack( void );
 
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     // Modifier
@@ -120,12 +120,12 @@ RefResult EmberFluidMotionMod::NotifyRefChanged( const Interval& /*changeInt*/, 
 CreateMouseCallBack* EmberFluidMotionMod::GetCreateMouseCallBack( void ) { return NULL; }
 
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE EmberFluidMotionMod::GetObjectName() { return _T( EmberFluidMotionMod_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberFluidMotionMod::GetObjectName() {
 #else
 TYPE_STRING_TYPE EmberFluidMotionMod::GetObjectName( bool localized ) const {
+#endif
     return _T( EmberFluidMotionMod_DISPLAYNAME );
 }
-#endif
 
 Interval EmberFluidMotionMod::LocalValidity( TimeValue /*t*/ ) { return FOREVER; }
 

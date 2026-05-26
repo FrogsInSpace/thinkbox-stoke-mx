@@ -115,9 +115,9 @@ class FieldMagma : public EmberObjectBase, public IFieldMagma, public frantic::m
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    virtual TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized );
+    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     virtual CreateMouseCallBack* GetCreateMouseCallBack();
@@ -369,10 +369,12 @@ RefResult FieldMagma::NotifyRefChanged( const Interval& /*changeInt*/, RefTarget
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE FieldMagma::GetObjectName() { return _T( FieldMagma_DISPLAYNAME ); }
+TYPE_STRING_TYPE FieldMagma::GetObjectName() {
 #else
-TYPE_STRING_TYPE FieldMagma::GetObjectName( bool localized ) { return _T( FieldMagma_DISPLAYNAME ); }
+TYPE_STRING_TYPE FieldMagma::GetObjectName( bool localized ) const  { 
 #endif
+	return _T( FieldMagma_DISPLAYNAME ); 
+}
 
 CreateMouseCallBack* FieldMagma::GetCreateMouseCallBack() {
     static frantic::max3d::ClickAndDragCreateCallBack theCallback;

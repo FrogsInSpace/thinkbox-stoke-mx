@@ -596,12 +596,12 @@ RefTargetHandle FloodVelocityLoaderPFOperator::Clone( RemapDir& remap ) {
 }
 
 #if MAX_VERSION_MAJOR < 24
-MAXSTRCONST TCHAR* FloodVelocityLoaderPFOperator::GetObjectName() { return GetString( IDS_OBJECTNAME ); }
+TYPE_STRING_TYPE FloodVelocityLoaderPFOperator::GetObjectName() {
 #else
-MAXSTRCONST TCHAR* FloodVelocityLoaderPFOperator::GetObjectName( bool localized ) const {
-    return GetString( IDS_OBJECTNAME );
-}
+TYPE_STRING_TYPE FloodVelocityLoaderPFOperator::GetObjectName( bool localized ) const {
 #endif
+    return GetString( IDS_OBJECTNAME ); 
+}
 
 void FloodVelocityLoaderPFOperator::PassMessage( int message, LPARAM param ) {
     // is this function needed?

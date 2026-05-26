@@ -222,9 +222,9 @@ class EmberLoader : public EmberObjectBase {
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    virtual TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     virtual CreateMouseCallBack* GetCreateMouseCallBack();
@@ -441,10 +441,12 @@ RefResult EmberLoader::NotifyRefChanged( const Interval& /*changeInt*/, RefTarge
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE EmberLoader::GetObjectName() { return _T( EmberLoader_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberLoader::GetObjectName() { 
 #else
-TYPE_STRING_TYPE EmberLoader::GetObjectName( bool localized ) const { return _T( EmberLoader_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberLoader::GetObjectName( bool localized ) const {
 #endif
+	return _T( EmberLoader_DISPLAYNAME ); 
+}
 
 CreateMouseCallBack* EmberLoader::GetCreateMouseCallBack() {
     static frantic::max3d::ClickAndDragCreateCallBack theCallback;

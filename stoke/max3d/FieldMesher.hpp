@@ -115,10 +115,13 @@ class FieldMesher : public GeomObject, public frantic::max3d::fpwrapper::FFMixin
     // Virtual methods From BaseObject
     CreateMouseCallBack* GetCreateMouseCallBack();
 #if MAX_VERSION_MAJOR < 24
-    TYPE_STRING_TYPE GetObjectName() { return _T( FieldMesher_CLASS_NAME ); }
+    TYPE_STRING_TYPE GetObjectName() override {
 #else
-    TYPE_STRING_TYPE GetObjectName( bool localized ) { return _T( FieldMesher_CLASS_NAME ); }
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override {
 #endif
+	return _T( FieldMesher_CLASS_NAME ); 
+}
+
     BOOL HasViewDependentBoundingBox() { return TRUE; }
 
     int Display( TimeValue t, INode* inode, ViewExp* pView, int flags );

@@ -48,9 +48,9 @@ class FloodVelocityLoaderPFOperator : public PFSimpleOperator {
 
 // From BaseObject
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     // From ReferenceTarget

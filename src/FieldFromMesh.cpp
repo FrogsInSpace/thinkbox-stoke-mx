@@ -76,9 +76,9 @@ class EmberFromMesh : public frantic::max3d::GenericReferenceTarget<OSModifier, 
     virtual CreateMouseCallBack* GetCreateMouseCallBack( void );
 
 #if MAX_VERSION_MAJOR < 24
-    virtual TYPE_STRING_TYPE GetObjectName();
+    TYPE_STRING_TYPE GetObjectName() override;
 #else
-    virtual TYPE_STRING_TYPE GetObjectName( bool localized ) const;
+    TYPE_STRING_TYPE GetObjectName( bool localized ) const override;
 #endif
 
     // Modifier
@@ -156,10 +156,12 @@ RefResult EmberFromMesh::NotifyRefChanged( const Interval& /*changeInt*/, RefTar
 CreateMouseCallBack* EmberFromMesh::GetCreateMouseCallBack( void ) { return NULL; }
 
 #if MAX_VERSION_MAJOR < 24
-TYPE_STRING_TYPE EmberFromMesh::GetObjectName() { return _T( EmberFromMesh_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberFromMesh::GetObjectName() { 
 #else
-TYPE_STRING_TYPE EmberFromMesh::GetObjectName( bool localized ) const { return _T( EmberFromMesh_DISPLAYNAME ); }
+TYPE_STRING_TYPE EmberFromMesh::GetObjectName( bool localized ) const { 
 #endif
+	return _T( EmberFromMesh_DISPLAYNAME ); 
+}
 
 Interval EmberFromMesh::LocalValidity( TimeValue /*t*/ ) { return FOREVER; }
 
