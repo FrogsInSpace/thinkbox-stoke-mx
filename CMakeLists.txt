@@ -29,6 +29,18 @@ set_target_properties( stokemx PROPERTIES OUTPUT_NAME "StokeMX_${MAX_VERSION}" )
 set_target_properties( stokemx PROPERTIES PREFIX "" )
 set_target_properties( stokemx PROPERTIES SUFFIX ".dlo" )
 
+# copy to installer staging area if the env variable is set
+if(DEFINED ENV{PACKAGING_FOLDER} AND NOT "$ENV{PACKAGING_FOLDER}" STREQUAL "")
+    set(STAGING_DIR "$ENV{PACKAGING_FOLDER}/Stoke/Thinkbox_StokeMX_${MAX_VERSION}/Contents/plugin" )
+    add_custom_command(
+        TARGET stokemx
+        POST_BUILD
+		# only when we are in release build
+        COMMAND $<$<CONFIG:Release>:${CMAKE_COMMAND}> -E make_directory "${STAGING_DIR}"
+        COMMAND $<$<CONFIG:Release>:${CMAKE_COMMAND}> -E copy_if_different "$<TARGET_FILE:stokemx>" "${STAGING_DIR}/"
+    )
+endif()
+
 target_include_directories( stokemx PUBLIC
                             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/stoke>
                             $<INSTALL_INTERFACE:include> )
