@@ -1026,26 +1026,30 @@ rollout Stoke_FieldDataViewer_Rollout "Stoke - Field Data Viewer"
 		source+="  }\n"
 		source+="}\n"	
 
-
-		csharpProvider = dotnetobject "Microsoft.CSharp.CSharpCodeProvider"
-		compilerParams = dotnetobject "System.CodeDom.Compiler.CompilerParameters"
-		compilerParams.ReferencedAssemblies.AddRange #("System.dll", "System.Windows.Forms.dll")
-		compilerParams.GenerateInMemory = true
-		compilerResults = csharpProvider.CompileAssemblyFromSource compilerParams #(source)
-		if compilerResults.Errors.Count == 0 then 
+		if( (maxversion())[1] < 28000 ) then
 		(
-			compilerResults.CompiledAssembly
+			csharpProvider = dotnetobject "Microsoft.CSharp.CSharpCodeProvider"
+			compilerParams = dotnetobject "System.CodeDom.Compiler.CompilerParameters"
+			compilerParams.ReferencedAssemblies.AddRange #("System.dll", "System.Windows.Forms.dll")
+			compilerParams.GenerateInMemory = true
+			compilerResults = csharpProvider.CompileAssemblyFromSource compilerParams #(source)
+			if compilerResults.Errors.Count == 0 then
+			(
+				compilerResults.CompiledAssembly
+			)
+			else
+			(
+				for i = 0 to compilerResults.Errors.Count-1 do
+					format "%\n" compilerResults.Errors.Item[i].ErrorText
+				false
+			)
 		)
 		else
 		(
-			--showProperties compilerResults.CompiledAssembly.Errors
-			for i = 0 to compilerResults.Errors.Count-1 do
-				format "%\n" compilerResults.Errors.Item[i].ErrorText
-			false
+			compHelper = dotnetclass "CSharpUtilities.CSharpCompilationHelper"				
+			compHelper.compile source #()						
 		)
 	)
-	
-
 
 	local theAssembly = CompileComparer()	
 	on dnc_datalistview ColumnClick args do
