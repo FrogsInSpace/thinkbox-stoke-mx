@@ -8,6 +8,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/foreach.hpp>
 #include <ember/openvdb.hpp>
+#include <frantic/max3d/convert.hpp>
 #include <frantic/max3d/paramblock_access.hpp>
 #include <frantic/max3d/paramblock_builder.hpp>
 #include <frantic/max3d/volumetrics/IEmberField.hpp>
@@ -108,7 +109,6 @@ using namespace frantic::graphics;
 using namespace frantic::max3d;
 using namespace frantic::max3d::geometry;
 using namespace frantic::channels;
-using namespace frantic::geometry;
 using namespace boost::assign;
 
 extern HINSTANCE hInstance;
@@ -2156,10 +2156,10 @@ void FieldMesher::build_mesh( TimeValue t, LoggerUpdater* logger, frantic::tstri
             logger->set_progress( 85, _T( "Readying Display " ) );
 
             if( transformed )
-                transform( m_cachedPolymesh3, pblock2->GetINode( pb_targetNode )->GetObjectTM( t ) );
+                transform( m_cachedPolymesh3, from_max_t( pblock2->GetINode( pb_targetNode )->GetObjectTM( t ) ));
 
             if( !in_object_space( t ) ) {
-                frantic::geometry::transform( m_cachedPolymesh3, Inverse( get_inode()->GetObjectTM( t ) ) );
+                frantic::geometry::transform( m_cachedPolymesh3, from_max_t(Inverse(get_inode()->GetObjectTM( t ) )) );
             }
 
             int displayMode = get_display_mode( t );

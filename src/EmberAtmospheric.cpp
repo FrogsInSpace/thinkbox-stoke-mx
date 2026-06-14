@@ -9,7 +9,9 @@
 #include <krakatoa/raytrace_renderer/raytrace_renderer.hpp>
 #include <krakatoa/shader_functions.hpp>
 
+#include <frantic/max3d/standard_max_includes.hpp>
 #include <frantic/max3d/GenericReferenceTarget.hpp>
+#include <frantic/max3d/maxscript/maxscript.hpp>
 #include <frantic/max3d/paramblock_access.hpp>
 #include <frantic/max3d/paramblock_builder.hpp>
 

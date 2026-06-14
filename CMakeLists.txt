@@ -142,6 +142,7 @@ target_link_libraries( stokemx PUBLIC HDF5::HDF5 )
 target_link_libraries( stokemx PUBLIC MKL::MKL )
 
 target_compile_definitions( stokemx PUBLIC OPENVDB_STATICLIB )
+target_compile_definitions( stokemx PUBLIC MAX_VERSION  )
 
 frantic_default_source_groups( stokemx HEADERDIR stoke SOURCEDIR src )
 frantic_common_platform_setup( stokemx )
@@ -150,6 +151,7 @@ frantic_common_platform_setup( stokemx )
 # This allows breakpoints to be hit reliably when debugging in Visual Studio.
 if( WIN32 )
 	target_compile_options( stokemx PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
+	target_compile_options( stokemx PUBLIC /bigobj> )
 endif()
 
 # restore auto_ptr in c++17

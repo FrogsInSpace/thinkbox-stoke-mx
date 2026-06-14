@@ -13,6 +13,7 @@
 #include <stoke/max3d/MXSField.hpp>
 #include <stoke/max3d/ParticleSim/GeometryGenerator.hpp>
 
+#include <frantic/max3d/convert.hpp>
 #include <frantic/max3d/exception.hpp>
 #include <frantic/max3d/fnpublish/StaticInterface.hpp>
 #include <frantic/max3d/rendering/renderplugin_utils.hpp> // For refmaker_call_recursive
