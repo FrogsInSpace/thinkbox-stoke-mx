@@ -1065,7 +1065,7 @@ replaceui:true
 		
 		on btn_openOnlineHelp click arg do 
 		(
-			shellLaunch "https://docs.thinkboxsoftware.com/products/stoke/2.3/1_Documentation/manual/reflowtools/particle_simulator.html" ""
+			shellLaunch "https://docs.thinkboxsoftware.com/products/stoke/2.7/1_Documentation/manual/reflowtools/particle_simulator.html" ""
 		)
 		
 		

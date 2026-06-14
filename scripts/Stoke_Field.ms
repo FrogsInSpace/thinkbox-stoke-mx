@@ -895,7 +895,7 @@ replaceui:true
 		
 		on btn_openOnlineHelp click arg do 
 		(
-			shellLaunch "https://docs.thinkboxsoftware.com/products/stoke/2.3/1_Documentation/manual/fields/stoke-mx-field-magma-object.html" ""
+			shellLaunch "https://docs.thinkboxsoftware.com/products/stoke/2.7/1_Documentation/manual/fields/stoke-mx-field-magma-object.html" ""
 		)
 		
 		fn updateLayout =
