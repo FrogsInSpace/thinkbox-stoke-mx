@@ -151,7 +151,7 @@ frantic_common_platform_setup( stokemx )
 # This allows breakpoints to be hit reliably when debugging in Visual Studio.
 if( WIN32 )
 	target_compile_options( stokemx PRIVATE "$<$<CONFIG:Release>:/O2>$<$<CONFIG:RelWithDebInfo>:/Od>" )
-	target_compile_options( stokemx PUBLIC /bigobj> )
+	target_compile_options( stokemx PUBLIC /bigobj )
 endif()
 
 # restore auto_ptr in c++17
