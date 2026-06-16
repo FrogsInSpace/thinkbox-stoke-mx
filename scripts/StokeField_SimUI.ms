@@ -1155,10 +1155,6 @@ replaceui:true
 			local x = 0
 			local y = 0
 			--local theTimes = for i in this.delegate.GetCacheTimes() collect (i.frame as integer)
-      
-      print (this.delegate.GetCacheTimes())
-      return false      
-
 			local theTimes = for i in this.delegate.GetCacheTimes() collect (i as integer)
 			--local theMemTimes = for i in this.delegate.GetMemoryCacheTimes() collect (i.frame as integer)
 			local theMemTimes = for i in this.delegate.GetMemoryCacheTimes() collect (i as integer)
